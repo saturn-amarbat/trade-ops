@@ -1,0 +1,44 @@
+# ============================================================
+# trade-ops configuration
+# All thresholds based on Ross Cameron's bull flag strategy
+# ============================================================
+
+# --- Universe filters (premarket scanner) ---
+universe:
+  price_min: 2.0           # Min stock price ($)
+  price_max: 20.0          # Max stock price ($)
+  gap_pct_min: 10.0        # Min gap up from prev close (%)
+  rvol_min: 5.0            # Min relative volume (X times 20-day avg)
+  float_max_millions: 20   # Max shares float (millions) — 0 = disabled
+  min_premarket_volume: 50000  # Min premarket share volume
+
+# --- Bull flag detection ---
+bullflag:
+  timeframe: "1Min"        # Candle timeframe: 1Min or 5Min
+  impulse_min_pct: 3.0     # Min % move for impulse leg
+  impulse_min_candles: 2   # Min candles in impulse leg
+  impulse_max_candles: 10  # Max candles in impulse leg
+  pullback_max_pct: 25.0   # Max pullback depth (% of impulse range)
+  pullback_hard_cut: 50.0  # Hard cut — skip if exceeded
+  min_pullback_candles: 2  # Min candles in pullback (beginner safety)
+  max_pullback_candles: 15 # Max candles before flag is "dead"
+  volume_ratio_min: 1.5    # Impulse avg vol / pullback avg vol (min)
+
+# --- Risk management ---
+risk:
+  reward_risk_min: 2.0     # Minimum R:R to alert
+  max_risk_per_trade_pct: 1.0  # Max % of account to risk per trade
+  account_size: 5000       # Account size ($) for position sizing
+
+# --- Schedule (Chicago time) ---
+schedule:
+  premarket_scan: "06:30"  # Run premarket scanner
+  market_open_watch: "08:30"  # Start live bull flag watcher
+  market_close_stop: "15:00"  # Stop watcher
+  timezone: "America/Chicago"
+
+# --- Alerts ---
+alerts:
+  discord_enabled: true
+  include_chart_link: true  # Include TradingView link
+  alert_sound: true         # @everyone ping on high-quality setups
